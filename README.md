@@ -1,7 +1,7 @@
 # Thing Interfaces
 
 ## Prototypes
-### Golden Microwave
+### [Golden Microwave](https://thgie.github.io/thing-interfaces/prototypes/golden-microwave/)
 
 Two different views of the _activities_, as simple listing and as cloud. Number-keys change some parameters
 
