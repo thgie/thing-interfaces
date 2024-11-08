@@ -12,6 +12,10 @@ Two different views of the _activities_, as simple listing and as cloud. Number-
 - 5: display as list
 - 6: display as cloud
 
+![](assets/screenshots/golden-microwave-001.png)
+![](assets/screenshots/golden-microwave-002.png)
+![](assets/screenshots/golden-microwave-003.png)
+
 ## License
 This work is licensed under a
 [Creative Commons Attribution 4.0 International License][cc-by].
