@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+</head>
+<body style="margin:0; overflow: hidden;">
+  <script>
+    const activities = [
+      "Reading", "Swimming", "Running", "Cooking", "Painting", "Gaming", "Hiking",
+      "Dancing", "Singing", "Cycling", "Yoga", "Meditation", "Gardening",
+      "Photography", "Writing", "Drawing", "Sculpting", "Skating", "Surfing",
+      "Rock climbing", "Bird watching", "Fishing", "Camping", "Kayaking",
+      "Chess", "Pottery", "Knitting", "Baking", "Woodworking", "Origami",
+      "Calligraphy", "Astronomy", "Volunteering", "Soccer", "Basketball",
+      "Tennis", "Golf", "Bowling", "Archery", "Skiing", "Snowboarding",
+      "Martial arts", "Boxing", "Pilates", "Zumba", "Sailing", "Windsurfing",
+      "Scuba diving", "Snorkeling", "Volleyball", "Baseball", "Rugby",
+      "Cricket", "Table tennis", "Badminton", "Squash", "Skateboarding",
+      "Juggling", "Magic tricks", "Coin collecting", "Stamp collecting",
+      "Model building", "Podcasting", "Blogging", "Vlogging", "DJing",
+      "Music production", "Film making", "Acting", "Stand-up comedy",
+      "Improv", "Beer brewing", "Wine tasting", "Coffee roasting",
+      "Beekeeping", "Aquascaping", "Terrarium making", "Soap making",
+      "Candle making", "Jewelry making", "Leather crafting", "Metal detecting",
+      "Fossil hunting", "Geocaching", "Urban exploration", "Parkour",
+      "Slacklining", "Fire spinning", "Aerial silks", "Trapeze",
+      "Acrobatics", "Pole dancing", "Bouldering", "Caving", "Paragliding",
+      "Skydiving", "Hang gliding", "Hot air ballooning", "RC flying",
+      "Drone racing", "Robot building", "3D printing", "Digital art"
+    ];
+
+    let activityCounts = {};
+    let currentSortMode = 'random';
+    let useDynamicSize = false;
+    let isWordCloud = false;
+    let sortButton, sizeButton, layoutButton;
+    let displayActivities = [];
+    let baseTextSize = 16;
+    let wordCloudItems = [];
+
+    function setup() {
+      createCanvas(windowWidth, windowHeight - 50);
+      textFont('Arial');
+      angleMode(DEGREES);
+      
+      // Initialize counts
+      activities.forEach(activity => {
+        activityCounts[activity] = floor(random(1, 100));
+      });
+      
+      // Create sort button
+      sortButton = createButton('Toggle Sort (Random/Alphabetical/Count)');
+      sortButton.position(10, windowHeight - 40);
+      sortButton.mousePressed(toggleSort);
+      
+      // Create size toggle button
+      sizeButton = createButton('Toggle Dynamic Size');
+      sizeButton.position(300, windowHeight - 40);
+      sizeButton.mousePressed(toggleSize);
+      
+      // Create layout toggle button
+      layoutButton = createButton('Toggle Layout (List/Word Cloud)');
+      layoutButton.position(500, windowHeight - 40);
+      layoutButton.mousePressed(toggleLayout);
+      
+      updateDisplayActivities();
+      calculateWordCloudPositions();
+      noLoop();
+    }
+
+    function calculateWordCloudPositions() {
+      wordCloudItems = [];
+      let centerX = width / 2;
+      let centerY = height / 2;
+      let angle = 0;
+      let radiusStep = 10;
+      let radius = 0;
+      
+      // Sort activities by count for word cloud placement
+      let sortedActivities = [...displayActivities].sort((a, b) => 
+        activityCounts[b] - activityCounts[a]);
+      
+      for (let activity of sortedActivities) {
+        let count = activityCounts[activity];
+        let fontSize = useDynamicSize ? 
+          map(count, 1, 100, baseTextSize * 0.7, baseTextSize * 2) : 
+          baseTextSize;
+        
+        // Calculate position based on spiral
+        let x = centerX + cos(angle) * radius;
+        let y = centerY + sin(angle) * radius;
+        
+        // Add some randomness to prevent perfect spiral
+        x += random(-20, 20);
+        y += random(-20, 20);
+        
+        // Keep within bounds
+        x = constrain(x, fontSize * 2, width - fontSize * 2);
+        y = constrain(y, fontSize * 2, height - fontSize * 2);
+        
+        wordCloudItems.push({
+          text: activity,
+          x: x,
+          y: y,
+          size: fontSize,
+          count: count
+        });
+        
+        // Increment angle and radius for next word
+        angle += 137.5; // Golden angle
+        radius += radiusStep;
+        if (radius > min(width, height) / 2) {
+          radius = 0;
+          radiusStep *= 1.2;
+        }
+      }
+    }
+
+    function toggleSort() {
+      if (currentSortMode === 'random') {
+        currentSortMode = 'alphabetical';
+      } else if (currentSortMode === 'alphabetical') {
+        currentSortMode = 'count';
+      } else {
+        currentSortMode = 'random';
+      }
+      updateDisplayActivities();
+      if (isWordCloud) calculateWordCloudPositions();
+      redraw();
+    }
+
+    function toggleSize() {
+      useDynamicSize = !useDynamicSize;
+      if (isWordCloud) calculateWordCloudPositions();
+      redraw();
+    }
+
+    function toggleLayout() {
+      isWordCloud = !isWordCloud;
+      if (isWordCloud) calculateWordCloudPositions();
+      redraw();
+    }
+
+    function updateDisplayActivities() {
+      displayActivities = activities.slice();
+      
+      if (currentSortMode === 'alphabetical') {
+        displayActivities.sort();
+      } else if (currentSortMode === 'count') {
+        displayActivities.sort((a, b) => activityCounts[b] - activityCounts[a]);
+      } else {
+        displayActivities = shuffle(displayActivities);
+      }
+    }
+
+    function getTextSize(count) {
+      return useDynamicSize ? 
+        map(count, 1, 100, baseTextSize * 0.7, baseTextSize * 2) : 
+        baseTextSize;
+    }
+
+    function drawListView() {
+      let columnWidth = 250;
+      let margin = 20;
+      let x = margin;
+      let y = margin;
+      
+      for (let i = 0; i < displayActivities.length; i++) {
+        let activity = displayActivities[i];
+        let count = activityCounts[activity];
+        let currentTextSize = getTextSize(count);
+        
+        textSize(currentTextSize);
+        
+        let intensity = map(count, 1, 100, 50, 200);
+        fill(intensity, intensity * 0.8, intensity * 1.2);
+        
+        text(`${activity} (${count})`, x, y);
+        
+        y += currentTextSize * 1.5;
+        if (y > height - margin - currentTextSize) {
+          y = margin + currentTextSize * 1.5;
+          x += columnWidth;
+        }
+      }
+    }
+
+    function drawWordCloud() {
+      textAlign(CENTER, CENTER);
+      
+      wordCloudItems.forEach(item => {
+        textSize(item.size);
+        let intensity = map(item.count, 1, 100, 50, 200);
+        fill(intensity, intensity * 0.8, intensity * 1.2);
+        text(`${item.text}`, item.x, item.y);
+      });
+      
+      textAlign(LEFT, BASELINE);
+    }
+
+    function draw() {
+      background(240);
+      
+      if (isWordCloud) {
+        drawWordCloud();
+      } else {
+        drawListView();
+      }
+      
+      // Draw mode indicators
+      textSize(baseTextSize);
+      fill(0);
+      textAlign(RIGHT);
+      text(
+        `Sort: ${currentSortMode} | Size: ${useDynamicSize ? 'Dynamic' : 'Fixed'} | Layout: ${isWordCloud ? 'Cloud' : 'List'}`, 
+        width - 20, 
+        height - 20
+      );
+      textAlign(LEFT);
+    }
+
+    function windowResized() {
+      resizeCanvas(windowWidth, windowHeight - 50);
+      sortButton.position(10, windowHeight - 40);
+      sizeButton.position(300, windowHeight - 40);
+      layoutButton.position(500, windowHeight - 40);
+      if (isWordCloud) calculateWordCloudPositions();
+      redraw();
+    }
+
+    function mousePressed() {
+      if (mouseY < height) {  // Only regenerate if clicking in the canvas area
+        activities.forEach(activity => {
+          activityCounts[activity] = floor(random(1, 100));
+        });
+        updateDisplayActivities();
+        if (isWordCloud) calculateWordCloudPositions();
+        redraw();
+      }
+    }
+  </script>
+</body>
+</html>

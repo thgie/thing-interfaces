@@ -16,6 +16,8 @@ Two different views of the _activities_, as simple listing and as cloud. Number-
 ![](assets/screenshots/golden-microwave-002.png)
 ![](assets/screenshots/golden-microwave-003.png)
 
+🔗 [Prototype created with Claude](https://thgie.github.io/thing-interfaces/prototypes/golden-microwave-claude.html)
+
 ## License
 This work is licensed under a
 [Creative Commons Attribution 4.0 International License][cc-by].
