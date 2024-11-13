@@ -18,6 +18,20 @@ Two different views of the _activities_, as simple listing and as cloud. Number-
 
 🔗 [Prototype created with Claude](https://thgie.github.io/thing-interfaces/prototypes/golden-microwave-claude.html)
 
+
+### [Hospitable Salesperson](https://thgie.github.io/thing-interfaces/prototypes/hospitable-salesperson/)
+
+Interface with focus on the materials of the archive. These are not included in this repository. The idea was to kind of flip through the various artefacts.
+
+![](assets/screenshots/hospitable-salesperson-001.png)
+![](assets/screenshots/hospitable-salesperson-002.png)
+![](assets/screenshots/hospitable-salesperson-003.png)
+
+*Screencast of the interface*
+
+![](assets/screencasts/hospitable-salesperson.webm)
+
+
 ## License
 This work is licensed under a
 [Creative Commons Attribution 4.0 International License][cc-by].
