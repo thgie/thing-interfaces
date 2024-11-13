@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hospitable Salesperson</title>
+  <style>
+
+    html, body {
+        height: 100%;
+    }
+
+    .container {
+      position: relative;
+      width: 100%;
+    }
+
+    .div-item {
+      position: absolute;
+      transition: opacity 0.3s ease;
+      width: 80%;
+      height: 100%;
+      left: 10%;
+      text-align: center;
+      transition: all .25s ease;
+      background-color: rgba(255, 255, 255, 0);
+    }
+
+    .div-item img {
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.25);
+    }
+
+    .div-item.show {
+        position: fixed;
+        top: 0 !important;
+        left: 0 !important;
+        margin-top: 0 !important;
+        padding: 50px;
+        width: 100% !important;
+        height: 100% !important;
+        z-index: 10000 !important;
+        transform: rotate(0deg) !important;
+        background-color: rgba(255, 255, 255, 0.25);
+    }
+
+    .div-item.show img {
+        height: 100%;
+        max-height: calc(100% - 100px);
+    }
+
+    .div-item.colorized {
+        padding: 20px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    .div-item:hover ~ .div-item,
+    .div-item.show  ~ .div-item {
+        margin-top: 500px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+  </div>
+
+  <script>
+    function getRandomColor() {
+      return '#' + Math.floor(Math.random() * 16777215).toString(16);
+    }
+
+    let container = document.querySelector('.container');
+
+    let material = [
+        'A01.01.01_01.jpg',
+        'A01.01.01_02.jpg',
+        'A01.01.01_03.jpg',
+        'A01.01.01_04.jpg',
+        'A01.02.01_01.jpg',
+        'A01.02.01_02.jpg',
+        'A01.03.01_01.jpg',
+        'A01.03.01_02.jpg',
+        'A01.04.01.jpg',
+        'A01.06.03.jpg',
+        'A01.06.08_02.jpg',
+        'A01.07.01_01.jpg',
+        'A01.07.01_02.jpg',
+        'A01.08.02_01.jpg',
+        'A01.08.02_02.jpg',
+        'A01.09.01_01.jpg',
+        'A01.09.01_02.jpg',
+        'A01.09.01_03.jpg',
+        'A01.09.01_04.jpg',
+        'A01.10.01_01.jpg',
+        'A01.10.01_02.jpg',
+        'A01.10.03.jpg',
+        'A01.10.04.jpg',
+        'A02.02.01.jpg',
+        'A02.04.01_01.jpg',
+        'A02.04.01_02.jpg',
+        'A02.04.03_01.jpg',
+        'A02.04.03_02.jpg',
+        'A03.01.01.jpg',
+        'A03.01.04_01.jpg',
+        'A03.01.04_02.jpg',
+        'A03.03.05.jpg',
+        'A03.04.10_01.jpg',
+        'A03.04.10_05.jpg',
+        'A03.05.24.jpg',
+        'A03.07.01_01.jpg',
+        'A03.09.08.jpg',
+        'A03.11.03.jpg',
+        'A03.17.01_01.jpg',
+        'A04.02.02.jpg',
+        'A04.02.06.jpg',
+        'A04.05.07.jpg',
+        'A04.11.02.jpg',
+        'A04.17.01.jpg',
+        'A04.18.07_01.jpg',
+        'A04.18.07_02.jpg',
+        'A04.20.01_01.jpg',
+        'A04.20.01_02.jpg',
+        'A04.20.06_01.jpg',
+        'A04.20.06_02.jpg',
+        'A06.02.02.jpg',
+        'A06.05.01.jpg',
+        'A06.16.01_01.jpg',
+        'A06.16.01_02.jpg',
+        'A08.13.02.jpg',
+        'A08.15.01.jpg',
+        'A10.03.01_01.jpg',
+        'A11.01.02_01.jpg',
+        'A11.04.32.jpg',
+        'A12.07.04.jpg',
+        'A12.07.06_01.jpg',
+        'A12.11.01.jpg',
+        'A14.08.01_01.jpg',
+        'A14.08.01_02.jpg',
+        'A14.08.03.jpg',
+    ]
+
+    for (let i = 0; i < 100; i++) {
+        let div = document.createElement('div');
+
+        // div.style.backgroundColor = getRandomColor();
+        div.style.zIndex = i;
+        div.style.top = `${Math.round(i * 75 + Math.random() * 50)}px`;
+        div.style.transform = `rotate(${-3 + Math.round(Math.random() * 6)}deg)`;
+        div.classList.add('div-item');
+
+        div.addEventListener('click', evt => {
+            evt.currentTarget.classList.toggle('show');
+        });
+
+        let img = document.createElement('img');
+
+        img.src = '../../assets/material/'+material[Math.floor(Math.random() * material.length)];
+        img.style.width = `${Math.round(400 + Math.random() * 400)}px`;  
+
+        div.appendChild(img);
+
+        container.appendChild(div);
+    }
+  </script>
+</body>
+</html>
