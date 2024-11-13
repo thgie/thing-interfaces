@@ -27,10 +27,7 @@ Interface with focus on the materials of the archive. These are not included in 
 ![](assets/screenshots/hospitable-salesperson-002.png)
 ![](assets/screenshots/hospitable-salesperson-003.png)
 
-*Screencast of the interface*
-
-![](assets/screencasts/hospitable-salesperson.webm)
-
+*[Screencast of the interface](assets/screencasts/hospitable-salesperson.webm)*
 
 ## License
 This work is licensed under a
